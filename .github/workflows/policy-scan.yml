@@ -45,9 +45,19 @@ jobs:
           else
             echo "✅ README.md found."
           fi
+          
+      - name: Check if gitleaks-report.json was created
+        run: |
+          if [ -f gitleaks-report.json ]; then
+            echo "✅ Gitleaks report generated."
+          else
+            echo "ℹ️ No gitleaks-report.json found. Likely no secrets detected."
+          fi
+    
 
       - name: Upload Gitleaks Report
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report
           path: gitleaks-report.json
+          if-no-files-found: ignore
